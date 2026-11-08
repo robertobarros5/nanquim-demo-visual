@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Protótipo offline e fictício dos portais da Copiadora Nanquim.">
+  <title>Nanquim — Protótipo offline</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#perfis">Ir direto para as jornadas</a>
+  <noscript>
+    <section class="no-script-notice" role="status" aria-labelledby="no-script-title">
+      <h2 id="no-script-title">A navegação interativa está pausada</h2>
+      <p>Ative o JavaScript do navegador para abrir as jornadas fictícias. Esta página permanece local e não envia dados.</p>
+    </section>
+    <style>
+      .text-size-toggle,
+      .contrast-toggle,
+      .motion-toggle,
+      .profile-action { display: none; }
+    </style>
+  </noscript>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Nanquim — início do protótipo">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span>Copiadora Nanquim</span>
+    </a>
+    <div class="header-actions">
+      <button class="text-size-toggle" type="button" aria-pressed="false">Ampliar texto</button>
+      <button class="contrast-toggle" type="button" aria-pressed="false">Alto contraste</button>
+      <button class="motion-toggle" type="button" aria-pressed="false">Reduzir movimento</button>
+      <button class="visual-preferences-reset" type="button" hidden>Restaurar visual</button>
+      <span class="visual-preference-status visually-hidden" role="status" aria-atomic="true"></span>
+      <span class="demo-badge">Demonstração offline</span>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Homologação visual · Issue #71</p>
+        <h1 id="hero-title">Um ponto de entrada para cada etapa do pedido.</h1>
+        <p class="hero-text">Escolha um perfil para navegar por uma visão inteiramente fictícia. Nenhuma ação envia arquivos, cobra valores ou altera pedidos reais.</p>
+        <div class="hero-actions">
+          <a class="primary-action" href="#perfis">Explorar perfis</a>
+          <button class="resume-action" type="button" aria-haspopup="dialog" aria-controls="demo-dialog" aria-expanded="false" hidden></button>
+        </div>
+      </div>
+      <div class="status-card" aria-label="Escopo desta demonstração">
+        <p class="status-label">Escopo atual</p>
+        <strong>Página inicial navegável</strong>
+        <ul>
+          <li>Dados sintéticos</li>
+          <li>Sem conexão externa</li>
+          <li>Sem integração com produção</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="profiles" id="perfis" tabindex="-1" aria-labelledby="profiles-title">
+      <div class="section-heading">
+        <p class="eyebrow">Escolha uma jornada</p>
+        <h2 id="profiles-title">Três perfis, uma visão coordenada</h2>
+        <p class="profile-shortcuts" id="profile-shortcuts">Atalhos de teclado: Alt+1 abre Cliente, Alt+2 abre Parceiro e Alt+3 abre Administrador.</p>
+      </div>
+
+      <div class="profile-grid">
+        <article class="profile-card profile-client" id="cliente">
+          <span class="profile-number" aria-hidden="true">01</span>
+          <p class="profile-role">Cliente</p>
+          <h3>Preparar e acompanhar um pedido</h3>
+          <p id="cliente-description">Visão futura para envio de arquivos, orçamento e acompanhamento, representada aqui apenas como roteiro.</p>
+          <p class="profile-progress" id="cliente-progress" data-profile-progress="Cliente" data-progress-announcement aria-live="polite">Estado local: 0 de 3 etapas concluídas</p>
+          <button class="profile-action" type="button" data-profile="Cliente" aria-haspopup="dialog" aria-controls="demo-dialog" aria-expanded="false" aria-describedby="cliente-description cliente-progress profile-shortcuts" aria-keyshortcuts="Alt+1">Abrir visão do cliente <span aria-hidden="true">→</span></button>
+        </article>
+
+        <article class="profile-card profile-partner" id="parceiro">
+          <span class="profile-number" aria-hidden="true">02</span>
+          <p class="profile-role">Parceiro</p>
+          <h3>Organizar a fila de produção</h3>
+          <p id="parceiro-description">Visão sintética das oportunidades, capacidade e etapas de execução, sem aceitar ou movimentar pedidos.</p>
+          <p class="profile-progress" id="parceiro-progress" data-profile-progress="Parceiro" data-progress-announcement aria-live="polite">Estado local: 0 de 3 etapas concluídas</p>
+          <button class="profile-action" type="button" data-profile="Parceiro" aria-haspopup="dialog" aria-controls="demo-dialog" aria-expanded="false" aria-describedby="parceiro-description parceiro-progress profile-shortcuts" aria-keyshortcuts="Alt+2">Abrir visão do parceiro <span aria-hidden="true">→</span></button>
+        </article>
+
+        <article class="profile-card profile-admin" id="administrador">
+          <span class="profile-number" aria-hidden="true">03</span>
+          <p class="profile-role">Administrador</p>
+          <h3>Supervisionar a operação</h3>
+          <p id="administrador-description">Painel demonstrativo de pedidos, parceiros e exceções, sem dados reais nem comandos administrativos.</p>
+          <p class="profile-progress" id="administrador-progress" data-profile-progress="Administrador" data-progress-announcement aria-live="polite">Estado local: 0 de 3 etapas concluídas</p>
+          <button class="profile-action" type="button" data-profile="Administrador" aria-haspopup="dialog" aria-controls="demo-dialog" aria-expanded="false" aria-describedby="administrador-description administrador-progress profile-shortcuts" aria-keyshortcuts="Alt+3">Abrir visão administrativa <span aria-hidden="true">→</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="prototype-notice" aria-labelledby="notice-title">
+      <div>
+        <p class="eyebrow">Limites explícitos</p>
+        <h2 id="notice-title">Isto ainda não é o sistema em operação.</h2>
+      </div>
+      <p>Os botões demonstram navegação local. Upload, orçamento, pagamento, produção e entrega não estão conectados nesta página.</p>
+    </section>
+  </main>
+
+  <dialog class="demo-dialog" id="demo-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <div class="dialog-header">
+      <p class="eyebrow">Roteiro sintético</p>
+      <button type="button" class="dialog-close dialog-close-top" aria-label="Fechar roteiro e voltar aos perfis">Fechar <span aria-hidden="true">×</span></button>
+    </div>
+    <h2 class="dialog-title" id="dialog-title" tabindex="-1"></h2>
+    <p id="dialog-description">Prévia local das etapas previstas para este perfil. Nenhuma ação é executada.</p>
+    <div class="dialog-profiles" role="tablist" aria-label="Alternar perfil da simulação" aria-describedby="keyboard-help-content">
+      <button type="button" role="tab" id="profile-tab-cliente" aria-controls="dialog-steps" aria-keyshortcuts="Alt+1 ArrowLeft ArrowRight ArrowUp ArrowDown Home End" data-dialog-profile="Cliente">Cliente</button>
+      <button type="button" role="tab" id="profile-tab-parceiro" aria-controls="dialog-steps" aria-keyshortcuts="Alt+2 ArrowLeft ArrowRight ArrowUp ArrowDown Home End" data-dialog-profile="Parceiro">Parceiro</button>
+      <button type="button" role="tab" id="profile-tab-administrador" aria-controls="dialog-steps" aria-keyshortcuts="Alt+3 ArrowLeft ArrowRight ArrowUp ArrowDown Home End" data-dialog-profile="Administrador">Administrador</button>
+    </div>
+    <p class="dialog-profile-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
+    <p class="dialog-prerequisite-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
+    <div class="dialog-accessibility-actions" aria-label="Recursos de acessibilidade da simulação">
+      <button type="button" class="dialog-focus-step">Ir para a etapa atual</button>
+      <button type="button" class="dialog-focus-summary" aria-keyshortcuts="Alt+R">Ir para o resumo das jornadas</button>
+      <button type="button" class="dialog-focus-mode" aria-pressed="false">Mostrar somente a etapa atual</button>
+      <button type="button" class="dialog-announcements-toggle" aria-pressed="false" aria-keyshortcuts="Alt+A">Pausar avisos de progresso</button>
+    </div>
+    <details class="keyboard-help">
+      <summary aria-keyshortcuts="Alt+H">Como navegar pelo teclado</summary>
+      <p id="keyboard-help-content">Nas abas de perfil e nas etapas, use as setas para navegar; use Início ou Fim para ir ao primeiro ou ao último item. Pressione Enter ou Espaço para selecionar. Dentro do roteiro, Alt+1 abre Cliente, Alt+2 abre Parceiro, Alt+3 abre Administrador, Alt+N avança, Alt+V volta, Alt+R leva ao resumo das jornadas, Alt+A pausa ou retoma os avisos de progresso e Alt+H abre ou fecha esta ajuda. Escape fecha o roteiro; durante uma confirmação de reinício, Escape cancela primeiro essa confirmação.</p>
+    </details>
+    <p class="dialog-focus-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    <ol class="dialog-steps" id="dialog-steps" role="tabpanel" aria-label="Etapas selecionáveis da simulação" aria-describedby="keyboard-help-content"></ol>
+    <div class="dialog-progress" data-progress-announcement role="progressbar" aria-live="polite" aria-atomic="true" aria-valuemin="0"></div>
+    <section class="journey-summary" aria-labelledby="journey-summary-title">
+      <h3 id="journey-summary-title" tabindex="-1">Progresso das três jornadas</h3>
+      <p class="journey-overall-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
+      <p class="journey-shared-status"></p>
+      <ul class="journey-summary-list" data-progress-announcement aria-live="polite" aria-atomic="true"></ul>
+      <button type="button" class="journey-continue-action"></button>
+      <button type="button" class="journey-review-action" aria-expanded="false" aria-controls="journey-review">Preparar resumo para revisão</button>
+      <div class="journey-review" id="journey-review" hidden>
+        <label for="journey-review-text">Resumo local do pedido sintético DEMO-071</label>
+        <textarea id="journey-review-text" rows="7" readonly></textarea>
+        <button type="button" class="journey-review-copy" aria-describedby="journey-review-copy-status">Copiar resumo local</button>
+        <p class="journey-review-copy-status" id="journey-review-copy-status" role="status" aria-live="polite" aria-atomic="true">A cópia usa somente a área de transferência deste dispositivo. Nenhum dado é enviado.</p>
+      </div>
+    </section>
+    <section class="dialog-detail" aria-labelledby="dialog-detail-title">
+      <p class="dialog-detail-label">Registro sintético da etapa</p>
+      <h3 id="dialog-detail-title"></h3>
+      <p class="dialog-detail-description"></p>
+    </section>
+    <section class="dialog-handoff" aria-labelledby="dialog-handoff-title">
+      <p class="dialog-detail-label">Continuidade entre perfis</p>
+      <h3 id="dialog-handoff-title">Pedido sintético DEMO-071</h3>
+      <p class="dialog-handoff-status" data-progress-announcement aria-live="polite" aria-atomic="true"></p>
+      <button type="button" class="dialog-handoff-action"></button>
+    </section>
+    <div class="dialog-navigation" role="group" aria-label="Navegação entre etapas">
+      <button type="button" class="dialog-previous" aria-keyshortcuts="Alt+V">Voltar uma etapa</button>
+      <button type="button" class="dialog-restart" aria-describedby="dialog-restart-status" hidden>Reiniciar roteiro</button>
+      <button type="button" class="dialog-next" aria-keyshortcuts="Alt+N" aria-describedby="dialog-prerequisite-status">Avançar na simulação</button>
+    </div>
+    <p class="dialog-restart-status" id="dialog-restart-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    <button type="button" class="dialog-reset-all" aria-describedby="dialog-reset-status">Reiniciar todas as jornadas</button>
+    <p class="dialog-reset-status" id="dialog-reset-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    <button type="button" class="dialog-close">Voltar aos perfis</button>
+  </dialog>
+
+  <footer>
+    <span>Protótipo local · dados fictícios</span>
+    <a href="#inicio">Voltar ao início ↑</a>
+  </footer>
+</body>
+</html>
