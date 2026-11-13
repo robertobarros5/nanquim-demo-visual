@@ -64,6 +64,8 @@
         <p class="eyebrow">Escolha uma jornada</p>
         <h2 id="profiles-title">Três perfis, uma visão coordenada</h2>
         <p class="profile-shortcuts" id="profile-shortcuts">Atalhos de teclado: Alt+1 abre Cliente, Alt+2 abre Parceiro e Alt+3 abre Administrador.</p>
+        <p class="profiles-overall-progress" role="status" aria-live="polite" aria-atomic="true"></p>
+        <p class="session-storage-warning" role="status" aria-live="polite" aria-atomic="true" hidden></p>
       </div>
 
       <div class="profile-grid">
@@ -108,7 +110,8 @@
   <dialog class="demo-dialog" id="demo-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
     <div class="dialog-header">
       <p class="eyebrow">Roteiro sintético</p>
-      <button type="button" class="dialog-close dialog-close-top" aria-label="Fechar roteiro e voltar aos perfis">Fechar <span aria-hidden="true">×</span></button>
+      <p class="dialog-sticky-context" role="status" aria-live="polite" aria-atomic="true"></p>
+      <button type="button" class="dialog-close dialog-close-top" aria-label="Fechar roteiro e voltar aos perfis" aria-keyshortcuts="Escape Alt+0">Fechar <span aria-hidden="true">×</span></button>
     </div>
     <h2 class="dialog-title" id="dialog-title" tabindex="-1"></h2>
     <p id="dialog-description">Prévia local das etapas previstas para este perfil. Nenhuma ação é executada.</p>
@@ -118,38 +121,154 @@
       <button type="button" role="tab" id="profile-tab-administrador" aria-controls="dialog-steps" aria-keyshortcuts="Alt+3 ArrowLeft ArrowRight ArrowUp ArrowDown Home End" data-dialog-profile="Administrador">Administrador</button>
     </div>
     <p class="dialog-profile-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
-    <p class="dialog-prerequisite-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
+    <div class="dialog-prerequisite-notice">
+      <p class="dialog-prerequisite-status" id="dialog-prerequisite-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
+      <button type="button" class="dialog-prerequisite-action" hidden></button>
+    </div>
     <div class="dialog-accessibility-actions" aria-label="Recursos de acessibilidade da simulação">
-      <button type="button" class="dialog-focus-step">Ir para a etapa atual</button>
-      <button type="button" class="dialog-focus-summary" aria-keyshortcuts="Alt+R">Ir para o resumo das jornadas</button>
-      <button type="button" class="dialog-focus-mode" aria-pressed="false">Mostrar somente a etapa atual</button>
+      <button type="button" class="dialog-focus-step" aria-controls="dialog-steps" aria-keyshortcuts="Alt+E">Ir para a etapa atual</button>
+      <button type="button" class="dialog-focus-detail" aria-controls="dialog-detail" aria-keyshortcuts="Alt+D">Ir para os detalhes da etapa</button>
+      <button type="button" class="dialog-focus-field" aria-controls="dialog-detail" aria-keyshortcuts="Alt+I">Ir para o campo da etapa</button>
+      <button type="button" class="dialog-focus-summary" aria-controls="journey-summary" aria-keyshortcuts="Alt+R">Ir para o resumo das jornadas</button>
+      <button type="button" class="dialog-focus-navigation" aria-controls="dialog-navigation" aria-keyshortcuts="Alt+G">Ir para as ações de avanço</button>
+      <button type="button" class="dialog-focus-mode" aria-pressed="false" aria-controls="dialog-steps dialog-detail" aria-keyshortcuts="Alt+M">Mostrar somente a etapa atual</button>
       <button type="button" class="dialog-announcements-toggle" aria-pressed="false" aria-keyshortcuts="Alt+A">Pausar avisos de progresso</button>
     </div>
     <details class="keyboard-help">
       <summary aria-keyshortcuts="Alt+H">Como navegar pelo teclado</summary>
-      <p id="keyboard-help-content">Nas abas de perfil e nas etapas, use as setas para navegar; use Início ou Fim para ir ao primeiro ou ao último item. Pressione Enter ou Espaço para selecionar. Dentro do roteiro, Alt+1 abre Cliente, Alt+2 abre Parceiro, Alt+3 abre Administrador, Alt+N avança, Alt+V volta, Alt+R leva ao resumo das jornadas, Alt+A pausa ou retoma os avisos de progresso e Alt+H abre ou fecha esta ajuda. Escape fecha o roteiro; durante uma confirmação de reinício, Escape cancela primeiro essa confirmação.</p>
+      <p id="keyboard-help-content">Nas abas de perfil e nas etapas, use as setas para navegar; use Início ou Fim para ir ao primeiro ou ao último item. Pressione Enter ou Espaço para selecionar. Dentro do roteiro, Alt+1 abre Cliente, Alt+2 abre Parceiro, Alt+3 abre Administrador, Alt+N avança, Alt+V reabre a etapa anterior, Alt+E leva à etapa atual, Alt+D leva aos detalhes da etapa selecionada, Alt+I leva ao campo interativo da etapa ou ao pré-requisito pendente, Alt+L limpa a resposta da etapa selecionada quando houver uma, Alt+C cancela uma confirmação de reinício pendente, Alt+R leva ao resumo das jornadas, Alt+P abre ou fecha o resumo local para revisão, Alt+G leva às ações de avanço, Alt+M alterna a exibição somente da etapa atual, Alt+A pausa ou retoma os avisos de progresso, Alt+H abre ou fecha esta ajuda e Alt+0 volta aos perfis. Escape fecha primeiro o resumo de revisão, esta ajuda ou cancela uma confirmação de reinício; sem essas telas intermediárias, fecha o roteiro.</p>
     </details>
     <p class="dialog-focus-status" role="status" aria-live="polite" aria-atomic="true"></p>
     <ol class="dialog-steps" id="dialog-steps" role="tabpanel" aria-label="Etapas selecionáveis da simulação" aria-describedby="keyboard-help-content"></ol>
-    <div class="dialog-progress" data-progress-announcement role="progressbar" aria-live="polite" aria-atomic="true" aria-valuemin="0"></div>
-    <section class="journey-summary" aria-labelledby="journey-summary-title">
+    <div class="dialog-progress" data-progress-announcement role="progressbar" aria-label="Progresso da jornada selecionada" aria-live="polite" aria-atomic="true" aria-valuemin="0"></div>
+    <section class="journey-summary" id="journey-summary" aria-labelledby="journey-summary-title">
       <h3 id="journey-summary-title" tabindex="-1">Progresso das três jornadas</h3>
       <p class="journey-overall-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
-      <p class="journey-shared-status"></p>
+      <p class="journey-shared-status" data-progress-announcement role="status" aria-live="polite" aria-atomic="true"></p>
       <ul class="journey-summary-list" data-progress-announcement aria-live="polite" aria-atomic="true"></ul>
-      <button type="button" class="journey-continue-action"></button>
-      <button type="button" class="journey-review-action" aria-expanded="false" aria-controls="journey-review">Preparar resumo para revisão</button>
-      <div class="journey-review" id="journey-review" hidden>
-        <label for="journey-review-text">Resumo local do pedido sintético DEMO-071</label>
-        <textarea id="journey-review-text" rows="7" readonly></textarea>
+      <button type="button" class="journey-continue-action" aria-controls="dialog-steps"></button>
+      <button type="button" class="journey-review-action" aria-expanded="false" aria-controls="journey-review" aria-keyshortcuts="Alt+P">Preparar resumo para revisão</button>
+      <div class="journey-review" id="journey-review" role="region" aria-labelledby="journey-review-title" hidden>
+        <h4 id="journey-review-title">Resumo local do pedido sintético DEMO-071</h4>
+        <label for="journey-review-text">Conteúdo do resumo para revisão</label>
+        <textarea id="journey-review-text" rows="7" aria-describedby="journey-review-copy-status" readonly></textarea>
         <button type="button" class="journey-review-copy" aria-describedby="journey-review-copy-status">Copiar resumo local</button>
+        <button type="button" class="journey-review-download" aria-describedby="journey-review-copy-status">Baixar resumo em TXT</button>
+        <button type="button" class="journey-review-print" aria-describedby="journey-review-copy-status">Imprimir resumo local</button>
+        <button type="button" class="journey-review-close" aria-keyshortcuts="Escape">Fechar resumo e voltar</button>
         <p class="journey-review-copy-status" id="journey-review-copy-status" role="status" aria-live="polite" aria-atomic="true">A cópia usa somente a área de transferência deste dispositivo. Nenhum dado é enviado.</p>
       </div>
     </section>
-    <section class="dialog-detail" aria-labelledby="dialog-detail-title">
+    <section class="dialog-detail" id="dialog-detail" tabindex="-1" aria-labelledby="dialog-detail-title">
       <p class="dialog-detail-label">Registro sintético da etapa</p>
       <h3 id="dialog-detail-title"></h3>
       <p class="dialog-detail-description"></p>
+      <div class="synthetic-file-choice" hidden>
+        <label for="synthetic-file">Escolha um PDF de demonstração</label>
+        <select id="synthetic-file" aria-describedby="synthetic-file-help synthetic-file-status" aria-errormessage="synthetic-file-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione um arquivo sintético</option>
+          <option value="apostila">apostila-demo.pdf · 12 páginas</option>
+          <option value="atividade">atividade-escolar-demo.pdf · 4 páginas</option>
+        </select>
+        <p id="synthetic-file-help">As opções são apenas nomes fictícios: nenhum arquivo do dispositivo será acessado ou enviado.</p>
+        <p id="synthetic-file-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <fieldset class="synthetic-fulfillment-choice" hidden>
+        <legend>Decisões fictícias do orçamento</legend>
+        <div class="synthetic-quote" aria-labelledby="synthetic-quote-title">
+          <h4 id="synthetic-quote-title">Orçamento demonstrativo</h4>
+          <p><strong>R$ 18,00 fictícios</strong> · impressão e acabamento simulados</p>
+          <p>Valor fixo apenas para homologação visual; não representa preço, tarifa ou cobrança real.</p>
+        </div>
+        <label for="synthetic-quote-review">O orçamento fictício foi revisado?</label>
+        <select id="synthetic-quote-review" aria-describedby="synthetic-quote-help synthetic-quote-status" aria-errormessage="synthetic-quote-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione uma resposta sintética</option>
+          <option value="revisado">Sim, revisar e continuar na simulação</option>
+          <option value="ajuste">Não, sinalizar ajuste na simulação</option>
+        </select>
+        <p id="synthetic-quote-help">A resposta fica somente nesta sessão local e não confirma compra ou pagamento.</p>
+        <p id="synthetic-quote-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <label for="synthetic-fulfillment">Como o pedido fictício será recebido?</label>
+        <select id="synthetic-fulfillment" aria-describedby="synthetic-fulfillment-help synthetic-fulfillment-status" aria-errormessage="synthetic-fulfillment-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione uma opção sintética</option>
+          <option value="retirada">Retirada simulada no balcão</option>
+          <option value="entrega">Entrega local simulada</option>
+        </select>
+        <p id="synthetic-fulfillment-help">A escolha vale somente para este roteiro local; nenhuma retirada ou entrega será solicitada.</p>
+        <p id="synthetic-fulfillment-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </fieldset>
+      <div class="synthetic-tracking-choice" hidden>
+        <label for="synthetic-tracking">Qual status fictício foi conferido?</label>
+        <select id="synthetic-tracking" aria-describedby="synthetic-tracking-help synthetic-tracking-status" aria-errormessage="synthetic-tracking-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione um status sintético</option>
+          <option value="conferido">Status atual conferido nesta simulação</option>
+        </select>
+        <p id="synthetic-tracking-help">A conferência usa somente o estado do pedido DEMO-071 nesta sessão; nenhum rastreamento ou pedido real será consultado.</p>
+        <p id="synthetic-tracking-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="synthetic-capacity-choice" hidden>
+        <label for="synthetic-capacity">A capacidade fictícia é compatível?</label>
+        <select id="synthetic-capacity" aria-describedby="synthetic-capacity-help synthetic-capacity-status" aria-errormessage="synthetic-capacity-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione uma avaliação sintética</option>
+          <option value="compativel">Capacidade compatível nesta simulação</option>
+          <option value="revisao">Precisa de revisão nesta simulação</option>
+        </select>
+        <p id="synthetic-capacity-help">A avaliação existe somente neste navegador; nenhum pedido será aceito, recusado ou atribuído.</p>
+        <p id="synthetic-capacity-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="synthetic-requirements-choice" hidden>
+        <label for="synthetic-requirements">Os requisitos fictícios foram revisados?</label>
+        <select id="synthetic-requirements" aria-describedby="synthetic-requirements-help synthetic-requirements-status" aria-errormessage="synthetic-requirements-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione uma revisão sintética</option>
+          <option value="revisados">Prazo, material e acabamento revisados</option>
+          <option value="ajuste">Requisitos precisam de ajuste na simulação</option>
+        </select>
+        <p id="synthetic-requirements-help">A revisão vale somente para o pedido DEMO-071 nesta sessão; nenhum prazo ou requisito real será confirmado.</p>
+        <p id="synthetic-requirements-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="synthetic-production-choice" hidden>
+        <label for="synthetic-production">Qual etapa de produção deve aparecer na simulação?</label>
+        <select id="synthetic-production" aria-describedby="synthetic-production-help synthetic-production-status" aria-errormessage="synthetic-production-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione uma etapa sintética</option>
+          <option value="preparacao">Em preparação na simulação</option>
+          <option value="producao">Em produção na simulação</option>
+          <option value="concluida">Produção concluída na simulação</option>
+        </select>
+        <p id="synthetic-production-help">A atualização fica somente nesta sessão local; nenhuma fila ou produção real será alterada.</p>
+        <p id="synthetic-production-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="synthetic-order-filter-choice" hidden>
+        <label for="synthetic-order-filter">Qual etapa fictícia deve aparecer no painel?</label>
+        <select id="synthetic-order-filter" aria-describedby="synthetic-order-filter-help synthetic-order-filter-status" aria-errormessage="synthetic-order-filter-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione um filtro sintético</option>
+          <option value="aguardando">Aguardando produção simulada</option>
+          <option value="producao">Em produção simulada</option>
+          <option value="concluido">Concluído na simulação</option>
+        </select>
+        <p id="synthetic-order-filter-help">O filtro afeta somente o pedido DEMO-071 nesta tela; nenhum painel ou pedido real será consultado.</p>
+        <p id="synthetic-order-filter-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="synthetic-exception-choice" hidden>
+        <label for="synthetic-exception">Como tratar a exceção fictícia?</label>
+        <select id="synthetic-exception" aria-describedby="synthetic-exception-help synthetic-exception-status" aria-errormessage="synthetic-exception-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione uma decisão sintética</option>
+          <option value="acompanhar">Manter em acompanhamento na simulação</option>
+          <option value="revisar">Sinalizar para revisão na simulação</option>
+        </select>
+        <p id="synthetic-exception-help">A decisão fica somente nesta sessão local; nenhum pedido, alerta ou fila real será alterado.</p>
+        <p id="synthetic-exception-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="synthetic-history-choice" hidden>
+        <label for="synthetic-history">Qual foi o resultado da conferência fictícia?</label>
+        <select id="synthetic-history" aria-describedby="synthetic-history-help synthetic-history-status" aria-errormessage="synthetic-history-status" aria-invalid="false" aria-required="true">
+          <option value="">Selecione um resultado sintético</option>
+          <option value="conferido">Histórico conferido nesta simulação</option>
+          <option value="revisao">Histórico requer revisão nesta simulação</option>
+        </select>
+        <p id="synthetic-history-help">A conferência considera somente os eventos fictícios exibidos nesta página; nenhum registro real será consultado ou alterado.</p>
+        <p id="synthetic-history-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <button type="button" class="dialog-clear-choice" aria-keyshortcuts="Alt+L" hidden>Limpar resposta desta etapa</button>
     </section>
     <section class="dialog-handoff" aria-labelledby="dialog-handoff-title">
       <p class="dialog-detail-label">Continuidade entre perfis</p>
@@ -157,15 +276,16 @@
       <p class="dialog-handoff-status" data-progress-announcement aria-live="polite" aria-atomic="true"></p>
       <button type="button" class="dialog-handoff-action"></button>
     </section>
-    <div class="dialog-navigation" role="group" aria-label="Navegação entre etapas">
-      <button type="button" class="dialog-previous" aria-keyshortcuts="Alt+V">Voltar uma etapa</button>
+    <div class="dialog-navigation" id="dialog-navigation" role="group" aria-label="Navegação entre etapas">
+      <button type="button" class="dialog-previous" aria-keyshortcuts="Alt+V">Reabrir etapa anterior</button>
       <button type="button" class="dialog-restart" aria-describedby="dialog-restart-status" hidden>Reiniciar roteiro</button>
       <button type="button" class="dialog-next" aria-keyshortcuts="Alt+N" aria-describedby="dialog-prerequisite-status">Avançar na simulação</button>
     </div>
     <p class="dialog-restart-status" id="dialog-restart-status" role="status" aria-live="polite" aria-atomic="true"></p>
     <button type="button" class="dialog-reset-all" aria-describedby="dialog-reset-status">Reiniciar todas as jornadas</button>
     <p class="dialog-reset-status" id="dialog-reset-status" role="status" aria-live="polite" aria-atomic="true"></p>
-    <button type="button" class="dialog-close">Voltar aos perfis</button>
+    <button type="button" class="dialog-cancel-reset" aria-keyshortcuts="Alt+C" hidden>Cancelar reinício pendente</button>
+    <button type="button" class="dialog-close" aria-keyshortcuts="Escape Alt+0">Voltar aos perfis</button>
   </dialog>
 
   <footer>
