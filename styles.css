@@ -5,6 +5,7 @@
   --muted: #6b665d;
   --line: #d9d1c2;
   --yellow: #f4bb32;
+  --warning-surface: #fff4d6;
   --green: #35705a;
   --blue: #345c78;
   --radius: 1.25rem;
@@ -45,6 +46,7 @@ body.high-contrast {
   --muted: #222;
   --line: #000;
   --yellow: #ffdf00;
+  --warning-surface: #fff;
   --green: #005a28;
   --blue: #0046a8;
 }
@@ -248,6 +250,23 @@ h1 {
 
 .profiles { padding: 2rem 0 6rem; }
 .profiles:focus { outline: 3px solid var(--blue); outline-offset: .5rem; }
+.profiles-overall-progress {
+  max-width: 46rem;
+  margin: .8rem 0 0;
+  color: var(--green);
+  font-weight: 800;
+}
+.session-storage-warning {
+  max-width: 48rem;
+  margin: .65rem 0 0;
+  padding: .7rem .85rem;
+  color: var(--ink);
+  background: var(--warning-surface);
+  border: 1px solid var(--yellow);
+  border-radius: .65rem;
+  font-size: .85rem;
+  font-weight: 700;
+}
 
 .section-heading { max-width: 42rem; margin-bottom: 2rem; }
 .profile-shortcuts { margin: 1rem 0 0; color: var(--muted); font-size: .9rem; }
@@ -319,16 +338,35 @@ h2 {
 .dialog-previous:focus-visible,
 .dialog-next:focus-visible,
 .dialog-restart:focus-visible,
+.dialog-clear-choice:focus-visible,
 .dialog-profiles button:focus-visible,
 .dialog-focus-step:focus-visible,
+.dialog-focus-detail:focus-visible,
+.dialog-focus-field:focus-visible,
 .dialog-focus-summary:focus-visible,
+.dialog-focus-navigation:focus-visible,
 .dialog-focus-mode:focus-visible,
 .dialog-announcements-toggle:focus-visible,
+.dialog-prerequisite-action:focus-visible,
 .journey-continue-action:focus-visible,
 .journey-review-action:focus-visible,
 .journey-review-copy:focus-visible,
+.journey-review-download:focus-visible,
+.journey-review-print:focus-visible,
+.journey-review-close:focus-visible,
+.dialog-cancel-reset:focus-visible,
 .journey-review textarea:focus-visible,
+.synthetic-file-choice select:focus-visible,
+.synthetic-fulfillment-choice select:focus-visible,
+.synthetic-tracking-choice select:focus-visible,
+.synthetic-capacity-choice select:focus-visible,
+.synthetic-requirements-choice select:focus-visible,
+.synthetic-production-choice select:focus-visible,
+.synthetic-order-filter-choice select:focus-visible,
+.synthetic-exception-choice select:focus-visible,
+.synthetic-history-choice select:focus-visible,
 .dialog-step:focus-visible,
+.dialog-detail:focus-visible,
 .dialog-handoff-action:focus-visible,
 .dialog-reset-all:focus-visible,
 .dialog-close:focus-visible,
@@ -382,6 +420,14 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
   border-bottom: 1px solid var(--line);
 }
 .dialog-header .eyebrow { margin-bottom: 0; }
+.dialog-sticky-context {
+  flex: 1;
+  margin: 0;
+  color: var(--muted);
+  font-size: .8rem;
+  font-weight: 750;
+  text-align: right;
+}
 .dialog-close-top {
   margin-top: 0;
   padding: .35rem .65rem;
@@ -407,7 +453,9 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 }
 .dialog-profiles button[aria-selected="true"] { color: var(--paper); background: var(--blue); border-color: var(--blue); }
 .dialog-accessibility-actions { display: flex; flex-wrap: wrap; gap: .45rem 1rem; }
-.dialog-focus-step {
+.dialog-focus-step,
+.dialog-focus-detail,
+.dialog-focus-field {
   padding: .35rem 0;
   color: var(--blue);
   background: transparent;
@@ -429,7 +477,8 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
   text-decoration: underline;
   cursor: pointer;
 }
-.dialog-focus-summary {
+.dialog-focus-summary,
+.dialog-focus-navigation {
   padding: .35rem 0;
   color: var(--blue);
   background: transparent;
@@ -474,17 +523,32 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
   clip-path: inset(50%);
   white-space: nowrap;
 }
-.dialog-prerequisite-status {
+.dialog-prerequisite-notice {
   margin: .2rem 0;
   padding: .65rem .8rem;
   color: var(--ink);
   background: var(--paper);
   border-left: .3rem solid var(--yellow);
   border-radius: .25rem;
+}
+.dialog-prerequisite-notice:has(.dialog-prerequisite-status[data-ready="true"]) { border-left-color: var(--green); }
+.dialog-prerequisite-status {
+  margin: 0;
   font-size: .85rem;
   font-weight: 750;
 }
-.dialog-prerequisite-status[data-ready="true"] { border-left-color: var(--green); }
+.dialog-prerequisite-action {
+  margin-top: .55rem;
+  padding: .35rem 0;
+  color: var(--blue);
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 750;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .dialog-steps { display: grid; gap: .65rem; margin: .5rem 0; padding-left: 1.5rem; }
 .dialog-steps li {
   display: grid;
@@ -508,6 +572,10 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
   cursor: pointer;
 }
 .dialog-step:hover { background: var(--paper); }
+.dialog-steps li.is-active .dialog-step {
+  background: var(--paper);
+  box-shadow: inset .25rem 0 0 var(--blue);
+}
 .dialog-step-status {
   padding: .15rem .45rem;
   color: var(--muted);
@@ -533,6 +601,23 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 }
 .journey-summary h3 { margin-bottom: .45rem; font-size: 1rem; }
 .journey-summary h3:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+.journey-summary-profile {
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: .18em;
+  cursor: pointer;
+}
+
+.journey-summary-profile:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
 .journey-overall-status { margin-bottom: .45rem; color: var(--ink); font-weight: 750; }
 .journey-summary-list {
   display: grid;
@@ -581,7 +666,10 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
   font: inherit;
   font-size: .8rem;
 }
-.journey-review-copy {
+.journey-review-copy,
+.journey-review-download,
+.journey-review-print,
+.journey-review-close {
   margin-top: .5rem;
   padding: .45rem .7rem;
   color: var(--surface);
@@ -593,6 +681,9 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
   font-weight: 750;
   cursor: pointer;
 }
+.journey-review-download,
+.journey-review-print,
+.journey-review-close { color: var(--blue); background: transparent; }
 .journey-review p { margin: .35rem 0 0; color: var(--muted); font-size: .75rem; }
 .dialog-detail {
   padding: 1rem;
@@ -610,6 +701,166 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 }
 .dialog-detail h3 { margin-bottom: .35rem; font-family: Georgia, serif; font-size: 1.25rem; }
 .dialog-detail-description { margin-bottom: 0; color: var(--muted); }
+.synthetic-file-choice {
+  display: grid;
+  gap: .4rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.synthetic-fulfillment-choice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  min-width: 0;
+  border-top: 1px solid var(--line);
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+.synthetic-fulfillment-choice legend {
+  padding: 0;
+  font-weight: 850;
+}
+
+.synthetic-capacity-choice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.synthetic-production-choice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.synthetic-tracking-choice {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--paper);
+}
+.synthetic-requirements-choice {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--paper);
+}
+.synthetic-order-filter-choice {
+  display: grid;
+  gap: .55rem;
+  margin-top: 1rem;
+}
+
+.synthetic-exception-choice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.synthetic-history-choice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.synthetic-fulfillment-choice label,
+.synthetic-fulfillment-choice select,
+.synthetic-tracking-choice select,
+.synthetic-capacity-choice label,
+.synthetic-capacity-choice select,
+.synthetic-requirements-choice select,
+.synthetic-production-choice label,
+.synthetic-requirements-choice label,
+.synthetic-tracking-choice label,
+.synthetic-production-choice select,
+.synthetic-order-filter-choice label,
+.synthetic-order-filter-choice select,
+.synthetic-exception-choice label,
+.synthetic-exception-choice select,
+.synthetic-history-choice label,
+.synthetic-history-choice select {
+  display: block;
+  width: 100%;
+}
+
+.synthetic-quote {
+  margin-bottom: 1rem;
+  padding: .8rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+}
+
+.synthetic-quote h4,
+.synthetic-quote p { margin: 0; }
+.synthetic-quote p + p { margin-top: .35rem; }
+.synthetic-quote + label { margin-top: 0; }
+#synthetic-quote-status { min-height: 1.35rem; }
+#synthetic-quote-status + label { margin-top: 1rem; }
+
+.synthetic-fulfillment-choice label { margin-bottom: .5rem; font-weight: 800; }
+.synthetic-capacity-choice label { margin-bottom: .5rem; font-weight: 800; }
+.synthetic-requirements-choice label { margin-bottom: .5rem; font-weight: 800; }
+.synthetic-production-choice label { margin-bottom: .5rem; font-weight: 800; }
+.synthetic-tracking-choice label { margin-bottom: .5rem; font-weight: 800; }
+.synthetic-order-filter-choice label { margin-bottom: .5rem; font-weight: 800; }
+.synthetic-exception-choice label { margin-bottom: .5rem; font-weight: 800; }
+.synthetic-history-choice label { margin-bottom: .5rem; font-weight: 800; }
+
+.synthetic-fulfillment-choice select,
+.synthetic-tracking-choice select,
+.synthetic-capacity-choice select,
+.synthetic-requirements-choice select,
+.synthetic-production-choice select,
+.synthetic-order-filter-choice select,
+.synthetic-exception-choice select,
+.synthetic-history-choice select {
+  padding: .7rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  border-radius: .5rem;
+  font: inherit;
+}
+
+.synthetic-fulfillment-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-capacity-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-requirements-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-production-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-tracking-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-order-filter-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-exception-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-history-choice p { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.synthetic-file-choice[hidden],
+.synthetic-fulfillment-choice[hidden],
+.synthetic-capacity-choice[hidden],
+.synthetic-requirements-choice[hidden],
+.synthetic-production-choice[hidden],
+.synthetic-tracking-choice[hidden],
+.synthetic-order-filter-choice[hidden],
+.synthetic-exception-choice[hidden],
+.synthetic-history-choice[hidden] { display: none; }
+.synthetic-file-choice label { font-weight: 800; }
+.synthetic-file-choice select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: .55rem .7rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  border-radius: .55rem;
+  font: inherit;
+}
+.synthetic-file-choice p { margin: 0; color: var(--muted); font-size: .9rem; }
+#synthetic-file-status { min-height: 1.35rem; color: var(--green); font-weight: 750; }
 .dialog-handoff {
   padding: .8rem 1rem;
   border: 1px dashed var(--line);
@@ -640,8 +891,18 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 .dialog-next,
 .dialog-close { margin-top: .5rem; padding: .55rem .8rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 99px; cursor: pointer; }
 .dialog-restart { color: var(--ink); background: var(--paper); border: 1px solid var(--ink); }
+.dialog-clear-choice {
+  margin-top: .8rem;
+  padding: .45rem .7rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 99px;
+  cursor: pointer;
+}
 .dialog-next { background: var(--green); }
-.dialog-reset-all {
+.dialog-reset-all,
+.dialog-cancel-reset {
   justify-self: start;
   padding: .35rem 0;
   color: var(--muted);
@@ -681,6 +942,16 @@ footer {
   .header-actions { flex-basis: 100%; justify-content: flex-start; }
   .demo-badge { max-width: 8.5rem; text-align: center; }
   .hero { padding-block: 3.5rem; }
+  .demo-dialog {
+    width: 100%;
+    max-height: 100vh;
+    max-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .dialog-header .eyebrow { display: none; }
+  .dialog-sticky-context { text-align: left; }
   footer { flex-direction: column; }
 }
 
@@ -694,12 +965,31 @@ footer {
   .profile-action,
   .dialog-profiles button,
   .dialog-focus-step,
+  .dialog-focus-detail,
+  .dialog-focus-field,
   .dialog-focus-summary,
+  .dialog-focus-navigation,
   .dialog-focus-mode,
   .dialog-announcements-toggle,
+  .dialog-prerequisite-action,
   .journey-continue-action,
   .journey-review-action,
   .journey-review-copy,
+  .journey-review-download,
+  .journey-review-print,
+  .journey-review-close,
+  .journey-summary-profile,
+  .dialog-cancel-reset,
+  .dialog-clear-choice,
+  .synthetic-file-choice select,
+  .synthetic-fulfillment-choice select,
+  .synthetic-tracking-choice select,
+  .synthetic-capacity-choice select,
+  .synthetic-requirements-choice select,
+  .synthetic-production-choice select,
+  .synthetic-order-filter-choice select,
+  .synthetic-exception-choice select,
+  .synthetic-history-choice select,
   .dialog-step,
   .dialog-handoff-action,
   .dialog-previous,
@@ -710,6 +1000,29 @@ footer {
   .keyboard-help summary {
     min-height: 2.75rem;
   }
+}
+
+@media print {
+  body * { visibility: hidden; }
+  .journey-review,
+  .journey-review * { visibility: visible; }
+  .journey-review {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    color: #000;
+    background: #fff;
+  }
+  .journey-review textarea {
+    width: 100%;
+    min-height: 12rem;
+    overflow: visible;
+    border: 0;
+    color: #000;
+    background: #fff;
+  }
+  .journey-review button,
+  .journey-review-copy-status { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -751,5 +1064,19 @@ html:has(body.reduce-motion) { scroll-behavior: auto; }
   .profile-partner,
   .profile-admin {
     border-top-color: ButtonText;
+  }
+
+  .dialog-steps li[aria-current="step"] {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .dialog-previous:disabled,
+  .dialog-next[aria-disabled="true"],
+  .dialog-handoff-action:disabled,
+  .journey-continue-action:disabled {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
   }
 }
